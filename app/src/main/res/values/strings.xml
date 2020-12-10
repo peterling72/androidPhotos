@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">AndroidPhotos50</string>
+    <string-array name="albums_array">
+        <item>stock</item>
+        <item>Joe\'s photos</item>
+        <item>Peter\'s photos</item>
+        <item>Bill\'s photos</item>
+        <item>stock</item>
+        <item>Joe\'s photos</item>
+        <item>Peter\'s photos</item>
+        <item>Bill\'s photos</item>
+        <item>stock</item>
+        <item>Joe\'s photos</item>
+        <item>Peter\'s photos</item>
+        <item>Bill\'s photos</item>
+        <item>stock</item>
+        <item>Joe\'s photos</item>
+        <item>Peter\'s photos</item>
+        <item>Bill\'s photos</item>
+        <item>stock</item>
+        <item>Joe\'s photos</item>
+        <item>Peter\'s photos</item>
+        <item>Bill\'s photos</item>
+    </string-array>
+</resources>
