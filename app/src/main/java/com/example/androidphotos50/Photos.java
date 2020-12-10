@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +22,11 @@ public class Photos extends AppCompatActivity {
 
     private ListView listView;
     private ArrayList<Album> albums;
+    private Button add_button;
+    private Button remove_button;
+    private Button edit_button;
+    private Button open_button;
+
     private String selected_album;
 
     public static final int EDIT_ALBUM_CODE = 1;
@@ -67,6 +73,42 @@ public class Photos extends AppCompatActivity {
             }
         });
 
+        open_button = findViewById(R.id.open_button);
+        add_button = findViewById(R.id.add_button);
+        edit_button = findViewById(R.id.edit_button);
+        remove_button = findViewById(R.id.remove_button);
+
+        //Add button logic
+        add_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                //Code here executes on main thread after user presses button
+                getSupportActionBar().setTitle("you pressed the add button!");
+            }
+        });
+
+        //Remove button logic
+        remove_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                //Code here executes on main thread after user presses button
+                getSupportActionBar().setTitle("you pressed the remove button!");
+            }
+        });
+
+        //Edit button logic
+        edit_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                //Code here executes on main thread after user presses button
+                getSupportActionBar().setTitle("you pressed the edit button!");
+            }
+        });
+
+        //Open button logic
+        open_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                //Code here executes on main thread after user presses button
+                getSupportActionBar().setTitle("you pressed the open button!");
+            }
+        });
     }
 
     /**
