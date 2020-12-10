@@ -10,11 +10,9 @@ import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class AlbumView extends AppCompatActivity {
@@ -76,9 +74,15 @@ public class AlbumView extends AppCompatActivity {
         //Load photos
         photos = album.getPhotos();
 
+        /*
         listView = findViewById(R.id.photo_list);
         listView.setAdapter(
                 new ArrayAdapter<Photo>(this, R.layout.photo, photos));
+         */
+        listView = findViewById(R.id.photo_list);
+        //Custom thumbnail adapter
+        listView.setAdapter(
+                new ImageAdapter(this, R.layout.custom_adapter_row, photos));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id){
@@ -194,9 +198,6 @@ public class AlbumView extends AppCompatActivity {
         Photo p = photos.remove(pos);
         album.remove(p);
 
-        listView.setAdapter(
-                new ArrayAdapter<Photo>(this, R.layout.photo, photos));
-
         updateSelectedPhoto(null);
         selected_photo_pos = -1;
 
@@ -204,8 +205,12 @@ public class AlbumView extends AppCompatActivity {
         AlbumManager.writeAlbums(albumList, this);
 
         //Redo the adapter to reflect changes
+        /*
         listView.setAdapter(
                 new ArrayAdapter<Photo>(this, R.layout.photo, photos));
+        */
+        listView.setAdapter(
+                new ImageAdapter(this, R.layout.custom_adapter_row, photos));
     }
 
     protected void onActivityResult(int requestCode,
@@ -236,8 +241,12 @@ public class AlbumView extends AppCompatActivity {
             AlbumManager.writeAlbums(albumList, this);
 
             //Redo the adapter to reflect changes
+            /*
             listView.setAdapter(
                     new ArrayAdapter<Photo>(this, R.layout.photo, photos));
+            */
+            listView.setAdapter(
+                    new ImageAdapter(this, R.layout.custom_adapter_row, photos));
 
             return;
         } else if (requestCode == RESULT_MOVED || requestCode == RESULT_DISPLAY){
@@ -255,32 +264,14 @@ public class AlbumView extends AppCompatActivity {
             photos = album.getPhotos();
 
             //Redo the adapter to reflect changes
+            /*
             listView.setAdapter(
                     new ArrayAdapter<Photo>(this, R.layout.photo, photos));
+
+             */
+            listView.setAdapter(
+                    new ImageAdapter(this, R.layout.custom_adapter_row, photos));
         }
-        /*
-        Bundle bundle = intent.getExtras();
-        if (bundle == null)
-            return;
-
-        //gather all info passed back by launched activity
-
-        String name = bundle.getString(AddEditAlbum.ALBUM_NAME);
-        int index = bundle.getInt(AddEditAlbum.ALBUM_INDEX);
-
-        //Add photo to the album and refresh our photo list
-        album.addToAlbum(name);
-        photos = album.getPhotos();
-        Log.i("Photos", "done!");
-
-        //Redo the adapter to reflect changes
-        listView.setAdapter(
-                new ArrayAdapter<Photo>(this, R.layout.photo, photos));
-
-        //Save changes
-        AlbumManager.writeAlbums(albumList, this);
-         */
     }
-
 }
 

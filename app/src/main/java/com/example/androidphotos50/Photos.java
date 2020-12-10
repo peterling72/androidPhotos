@@ -108,7 +108,7 @@ public class Photos extends AppCompatActivity {
         open_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 //Code here executes on main thread after user presses button
-                getSupportActionBar().setTitle("you pressed the open button!");
+                //getSupportActionBar().setTitle("you pressed the open button!");
                 openAlbum(selected_album_pos);
             }
         });
