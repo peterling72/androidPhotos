@@ -9,6 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidPhotos50">
+        <activity
+            android:name=".AddEditAlbum"
+            android:label="Add/Edit Album"
+            android:theme="@style/Theme.AndroidPhotos50.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.androidphotos50.Photos" />
+        </activity>
         <activity android:name=".Photos">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,22 +1,10 @@
 <resources>
     <string name="app_name">AndroidPhotos50</string>
+    <string name="name_label">Name: (required)</string>
+    <string name="save_label">SAVE</string>
+    <string name="cancel_label">CANCEL</string>
+
     <string-array name="albums_array">
-        <item>stock</item>
-        <item>Joe\'s photos</item>
-        <item>Peter\'s photos</item>
-        <item>Bill\'s photos</item>
-        <item>stock</item>
-        <item>Joe\'s photos</item>
-        <item>Peter\'s photos</item>
-        <item>Bill\'s photos</item>
-        <item>stock</item>
-        <item>Joe\'s photos</item>
-        <item>Peter\'s photos</item>
-        <item>Bill\'s photos</item>
-        <item>stock</item>
-        <item>Joe\'s photos</item>
-        <item>Peter\'s photos</item>
-        <item>Bill\'s photos</item>
         <item>stock</item>
         <item>Joe\'s photos</item>
         <item>Peter\'s photos</item>
