@@ -1,5 +1,7 @@
 package com.example.androidphotos50;
 
+import android.net.Uri;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import java.util.Date;
  * @author jrn84, pl466
  *
  */
-public class Photo{
+public class Photo implements Serializable {
     /**
      *
      */
@@ -30,11 +32,6 @@ public class Photo{
     private String caption;
 
     /**
-     * The creation date of the image file specified by filepath.
-     */
-    private Date creation_date;
-
-    /**
      * The list of Tag objects associated with this Photo.
      */
     private ArrayList<Tag> tags;
@@ -47,16 +44,18 @@ public class Photo{
         this.filepath = filepath;
         int index = filepath.lastIndexOf('\\');
         caption = filepath.substring(index+1);
-
-        //Get current time and strip milliseconds
-		/*
-		creation_date = Calendar.getInstance();
-		creation_date.set(Calendar.MILLISECOND, 0);
-		*/
         File file = new File(filepath);
-        Date lastmodified = new Date(1000*(file.lastModified()/1000));
-        creation_date = lastmodified;
+        tags = new ArrayList<Tag>();
+    }
 
+    /**
+     * Android constructor for photos
+     * @param uri
+     * @param filename
+     */
+    public Photo(Uri uri, String filename){
+        this.filepath = uri.toString();
+        caption = filename;
         tags = new ArrayList<Tag>();
     }
 
@@ -70,9 +69,6 @@ public class Photo{
         int index = filepath.lastIndexOf('\\');
         caption = filepath.substring(index+1);
 
-        Date lastmodified = new Date(1000*(file.lastModified()/1000));
-        creation_date = lastmodified;
-
         tags = new ArrayList<Tag>();
     }
 
@@ -84,7 +80,6 @@ public class Photo{
     public Photo(Photo p) {
         filepath = p.getPath();
         caption = p.getCaption();
-        creation_date = p.getDate();
         tags = (ArrayList<Tag>)p.getTagList().clone();
     }
 
@@ -165,14 +160,6 @@ public class Photo{
     }
 
     /**
-     * Gets the Date object for this Photo.
-     * @return - A Date object containing the creation date of this Photo.
-     */
-    public Date getDate() {
-        return creation_date;
-    }
-
-    /**
      * Gets the filepath String for this Photo.
      * @return - A string containing the filepath of this Photo.
      */
@@ -194,6 +181,10 @@ public class Photo{
      */
     public void setCaption(String s) {
         caption = s;
+    }
+
+    public String toString(){
+        return getCaption();
     }
 
 }

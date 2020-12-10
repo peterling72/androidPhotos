@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author jrn84, pl466
  *
  */
-public class Tag{
+public class Tag implements Serializable {
 
     /**
      * The type of tag (location, person, etc.)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.androidphotos50">
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +16,22 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.androidphotos50.Photos" />
+        </activity>
+        <activity
+            android:name=".AlbumView"
+            android:label="View Album"
+            android:theme="@style/Theme.AndroidPhotos50">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.androidphotos50.Photos" />
+        </activity>
+        <activity
+            android:name=".MovePhoto"
+            android:label="Move Photo"
+            android:theme="@style/Theme.AndroidPhotos50">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.androidphotos50.AlbumView" />
         </activity>
         <activity android:name=".Photos">
             <intent-filter>

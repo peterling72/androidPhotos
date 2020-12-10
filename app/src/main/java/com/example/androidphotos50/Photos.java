@@ -39,24 +39,15 @@ public class Photos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.album_list);
 
+        AlbumManager.verifyStoragePermissions(this);
+
         //Set selected status to 'nothing'
         updateSelectedAlbum(null);
         selected_album = "";
 
         //Load albums
-        try {
-            FileInputStream fis = openFileInput("albums.dat");
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(fis));
-            String albumInfo = null;
-            albums = new ArrayList<Album>();
-            while ((albumInfo = br.readLine()) != null) {
-                String[] tokens = albumInfo.split("\\|");
-                if (tokens.length > 0) {
-                    albums.add(new Album(tokens[0]));
-                }
-            }
-        } catch (IOException e) {
+        albums = AlbumManager.loadAllAlbums(this);
+        if (albums == null) {
             //albums.dat file wasn't found
             String[] albumsList = getResources().getStringArray(R.array.albums_array);
             albums = new ArrayList<>(albumsList.length);
@@ -114,6 +105,7 @@ public class Photos extends AppCompatActivity {
             public void onClick(View v){
                 //Code here executes on main thread after user presses button
                 getSupportActionBar().setTitle("you pressed the open button!");
+                openAlbum(selected_album_pos);
             }
         });
     }
@@ -142,6 +134,17 @@ public class Photos extends AppCompatActivity {
         return albumNames;
     }
 
+    private void openAlbum(int pos){
+        if (pos == -1 || pos >= albums.size())
+            return;
+
+        Bundle bundle = new Bundle();
+        Album album = albums.get(pos);
+        bundle.putString(AlbumView.ALBUM_NAME, album.getName());
+        Intent intent = new Intent(this, AlbumView.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
     private void editAlbum(int pos){
         if (pos == -1 || pos >= albums.size())
             return;
@@ -174,6 +177,8 @@ public class Photos extends AppCompatActivity {
         updateSelectedAlbum(null);
         selected_album_pos = -1;
 
+        //Save changes
+        AlbumManager.writeAlbums(albums, this);
     }
 
     protected void onActivityResult(int requestCode,
@@ -204,6 +209,9 @@ public class Photos extends AppCompatActivity {
         //Redo the adapter to reflect changes
         listView.setAdapter(
                 new ArrayAdapter<Album>(this, R.layout.album, albums));
+
+        //Save changes
+        AlbumManager.writeAlbums(albums, this);
     }
 
 }

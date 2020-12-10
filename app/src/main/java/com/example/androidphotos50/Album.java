@@ -2,7 +2,6 @@ package com.example.androidphotos50;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Album object. Contains the following information about an album:
@@ -12,7 +11,7 @@ import java.util.Date;
  * @author jrn84, pl466
  *
  */
-public class Album{
+public class Album implements Serializable {
 
     /**
      * The photos contained in the album
@@ -137,40 +136,6 @@ public class Album{
      */
     public int size() {
         return photos.size();
-    }
-
-    /**
-     * Gets the oldest Date object in the Album.
-     * @return - A Date object containing the creation date of the oldest Photo in the album.
-     */
-    @SuppressWarnings("deprecation")
-    public Date earliestPhoto() {
-        long MIN = Long.MAX_VALUE;
-        Date earliest = null;
-        for (Photo p : photos) {
-            if (Date.parse(p.getDate().toString()) < MIN) {
-                earliest = p.getDate();
-                MIN = Date.parse(p.getDate().toString());
-            }
-        }
-        return earliest;
-    }
-
-    /**
-     * Gets the most recent Date object in the Album.
-     * @return - A date object containing the creation date of the most recent Photo in the album.
-     */
-    @SuppressWarnings("deprecation")
-    public Date latestPhoto() {
-        long MAX = Long.MIN_VALUE;
-        Date latest = null;
-        for (Photo p : photos) {
-            if (Date.parse(p.getDate().toString()) > MAX) {
-                latest = p.getDate();
-                MAX = Date.parse(p.getDate().toString());
-            }
-        }
-        return latest;
     }
 
     public String toString(){
