@@ -26,6 +26,14 @@
                 android:value="com.example.androidphotos50.PhotoDisplay" />
         </activity>
         <activity
+            android:name=".SearchTag"
+            android:label="Search Tag"
+            android:theme="@style/Theme.AndroidPhotos50.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.androidphotos50.Photos" />
+        </activity>
+        <activity
             android:name=".AlbumView"
             android:label="View Album"
             android:theme="@style/Theme.AndroidPhotos50">

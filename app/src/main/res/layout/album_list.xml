@@ -12,28 +12,28 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="9"
-        android:weightSum="2">
+        android:weightSum="2.5">
 
         <Button
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"
-            android:layout_weight="0.5"
+            android:layout_weight="0.6"
             android:textSize="10sp"/>
         <Button
             android:id="@+id/edit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit"
-            android:layout_weight="0.5"
+            android:layout_weight="0.6"
             android:textSize="10sp"/>
         <Button
             android:id="@+id/remove_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remove"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
             android:textSize="10sp"/>
         <Button
             android:id="@+id/open_button"
@@ -42,12 +42,19 @@
             android:layout_weight="0.5"
             android:text="Open"
             android:textSize="10sp"/>
+        <Button
+            android:id="@+id/search_button"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Search"
+            android:textSize="10sp"/>
     </LinearLayout>
 
     <ListView
         android:id="@+id/album_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="40sp"/>
+        android:layout_marginBottom="70sp"/>
 
 </LinearLayout>

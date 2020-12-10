@@ -27,12 +27,14 @@ public class Photos extends AppCompatActivity {
     private Button remove_button;
     private Button edit_button;
     private Button open_button;
+    private Button search_button;
 
     private String selected_album;
     private int selected_album_pos;
 
     public static final int EDIT_ALBUM_CODE = 1;
     public static final int ADD_ALBUM_CODE = 2;
+    public static final int SEARCH_TAG_CODE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class Photos extends AppCompatActivity {
         add_button = findViewById(R.id.add_button);
         edit_button = findViewById(R.id.edit_button);
         remove_button = findViewById(R.id.remove_button);
+        search_button = findViewById(R.id.search_button);
 
         //Add button logic
         add_button.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +112,25 @@ public class Photos extends AppCompatActivity {
                 openAlbum(selected_album_pos);
             }
         });
+
+        //Search button logic
+        search_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                //Code here executes on main thread after user presses button
+                getSupportActionBar().setTitle("you pressed the search button!");
+                searchTags();
+            }
+        });
+    }
+
+    /**
+     * Searches for the specified tags by pulling up the SearchTag activity
+     */
+    private void searchTags(){
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(this, SearchTag.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, SEARCH_TAG_CODE);
     }
 
     /**
@@ -170,7 +192,8 @@ public class Photos extends AppCompatActivity {
     private void removeAlbum(int pos){
         if (pos == -1 || pos >= albums.size())
             return;
-        albums.remove(pos);
+        Album a = albums.remove(pos);
+        getSupportActionBar().setTitle("Removed " + a.getName());
 
         listView.setAdapter(
                 new ArrayAdapter<Album>(this, R.layout.album, albums));
@@ -194,6 +217,41 @@ public class Photos extends AppCompatActivity {
         if (bundle == null)
             return;
 
+        if (requestCode == SEARCH_TAG_CODE){
+            //Refresh the local list of albums to ensure we search well.
+            albums = AlbumManager.loadAllAlbums(this);
+
+            String type = bundle.getString(SearchTag.TAG_TYPE);
+            String value = bundle.getString(SearchTag.TAG_VALUE);
+            Log.i("Photos", "type: " + type + ", value: " + value);
+            Album new_album = new Album("Search " + type + ": " + value);
+            for (Album a : albums){
+                for (Photo p: a.getPhotos()){
+                    ArrayList<Tag> tags = p.getTagList();
+                    for (Tag t : tags){
+                        if (t.getType().toLowerCase().equals(type.toLowerCase()) &&
+                        t.getValue().toLowerCase().contains(value.toLowerCase()))
+                            new_album.add(p);
+                    }
+                }
+            }
+            if (new_album.size() > 0){
+                //Add our search result album to the list
+                albums.add(new_album);
+
+                //Redo the adapter to reflect changes
+                listView.setAdapter(
+                        new ArrayAdapter<Album>(this, R.layout.album, albums));
+
+                //Save changes
+                AlbumManager.writeAlbums(albums, this);
+
+                getSupportActionBar().setTitle("Stored search in new album!");
+            } else{
+                getSupportActionBar().setTitle("No results found from search");
+            }
+            return;
+        }
         //gather all info passed back by launched activity
 
         String name = bundle.getString(AddEditAlbum.ALBUM_NAME);
@@ -202,9 +260,11 @@ public class Photos extends AppCompatActivity {
         if (requestCode == EDIT_ALBUM_CODE){
             Album album = albums.get(index);
             album.setName(name);
+            getSupportActionBar().setTitle("Edited album name");
         } else{
             albums.add(new Album(name));
             Log.i("Photos", "done!");
+            getSupportActionBar().setTitle("Created album " + name);
         }
 
         //Redo the adapter to reflect changes

@@ -4,6 +4,7 @@
     <string name="save_label">SAVE</string>
     <string name="cancel_label">CANCEL</string>
     <string name="tag_name_label">Tag Type: (enter \'person\' or \'location\')</string>
+    <string name="search_label">SEARCH</string>
     <string name="tag_value_label">Tag Value: (required)</string>
 
     <string-array name="albums_array">
