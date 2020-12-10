@@ -37,6 +37,13 @@ public class MovePhoto extends AppCompatActivity {
     private int photo_pos;
 
     @Override
+    public boolean onSupportNavigateUp(){
+        //Take us back to the previous activity
+        finish();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.move_list);

@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class AlbumView extends AppCompatActivity {
@@ -20,6 +22,7 @@ public class AlbumView extends AppCompatActivity {
     public static final String ALBUM_NAME = "albumName";
     private static final int PICK_IMAGE = 1;
     public static final int RESULT_MOVED = 2;
+    public static final int RESULT_DISPLAY = 3;
 
     private ListView listView;
     private Album album;
@@ -35,6 +38,13 @@ public class AlbumView extends AppCompatActivity {
     private int selected_photo_pos;
 
     public static final int ADD_PHOTO_CODE = 1;
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        //Take us back to the previous activity
+        finish();
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +126,7 @@ public class AlbumView extends AppCompatActivity {
             public void onClick(View v){
                 //Code here executes on main thread after user presses button
                 getSupportActionBar().setTitle("you pressed the open button!");
+                openPhoto(selected_photo_pos);
             }
         });
     }
@@ -145,10 +156,22 @@ public class AlbumView extends AppCompatActivity {
     }
 */
 
+    private void openPhoto(int pos){
+        if (pos == -1 || pos >= photos.size())
+            return;
+
+        Bundle bundle = new Bundle();
+        bundle.putString(PhotoDisplay.ALBUM_NAME, album.getName());
+        bundle.putInt(PhotoDisplay.PHOTO_POS, pos);
+        Intent intent = new Intent(this, PhotoDisplay.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, RESULT_DISPLAY);
+    }
     private void addPhoto(){
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        //intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
     }
 
@@ -196,7 +219,8 @@ public class AlbumView extends AppCompatActivity {
         }
 
         if (requestCode == PICK_IMAGE){
-                Uri uri = intent.getData();
+            Uri uri = intent.getData();
+
             Cursor returnCursor =
                     getContentResolver().query(uri, null, null, null, null);
             int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
@@ -204,6 +228,7 @@ public class AlbumView extends AppCompatActivity {
             String name = returnCursor.getString(nameIndex);
             returnCursor.close();
 
+            Log.i("Photos", "URI path: " + uri.getPath());
             //Add photo to album
             album.add(new Photo(uri, name));
             Log.i("Photos", "Output: " + name);
@@ -215,7 +240,7 @@ public class AlbumView extends AppCompatActivity {
                     new ArrayAdapter<Photo>(this, R.layout.photo, photos));
 
             return;
-        } else if (requestCode == RESULT_MOVED){
+        } else if (requestCode == RESULT_MOVED || requestCode == RESULT_DISPLAY){
 
             //Refresh photo list
             albumList = AlbumManager.loadAllAlbums(this);

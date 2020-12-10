@@ -18,12 +18,28 @@
                 android:value="com.example.androidphotos50.Photos" />
         </activity>
         <activity
+            android:name=".AddTag"
+            android:label="Add Tag"
+            android:theme="@style/Theme.AndroidPhotos50.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.androidphotos50.PhotoDisplay" />
+        </activity>
+        <activity
             android:name=".AlbumView"
             android:label="View Album"
             android:theme="@style/Theme.AndroidPhotos50">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.androidphotos50.Photos" />
+        </activity>
+        <activity
+            android:name=".PhotoDisplay"
+            android:label="View Photo"
+            android:theme="@style/Theme.AndroidPhotos50">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.androidphotos50.AlbumView" />
         </activity>
         <activity
             android:name=".MovePhoto"

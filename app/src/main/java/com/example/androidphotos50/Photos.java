@@ -54,6 +54,7 @@ public class Photos extends AppCompatActivity {
             for (int i = 0; i < albumsList.length; i++) {
                 albums.add(new Album(albumsList[i]));
             }
+            AlbumManager.writeAlbums(albums, this);
         }
 
         listView = findViewById(R.id.album_list);
